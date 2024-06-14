@@ -1,0 +1,109 @@
+using System;
+using System.Globalization;
+
+namespace BuildingApp
+{
+    class Building
+    {
+        public string City;
+        public string Type; // e.g. Library, Office, Factory, etc.
+        public double Height;
+        public bool IsPrivate;
+        public int YearOfFounding;
+        public string Street;
+        public double MaintenanceCost;
+
+        public double GetMaintenanceCostPerYear()
+        {
+            return MaintenanceCost / (2024 - YearOfFounding);
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.Write("Введите название города, в котором построено здание: ");
+            string city = Console.ReadLine();
+
+            Console.Write("Введите тип здания (библиотека, офис, фабрика и т.д.): ");
+            string type = Console.ReadLine();
+
+            double height;
+            while (true)
+            {
+                Console.Write("Введите высоту здания (в метрах): ");
+                string heightInput = Console.ReadLine();
+                if (double.TryParse(heightInput, NumberStyles.Any, CultureInfo.InvariantCulture, out height))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Некорректный ввод. Пожалуйста, введите число.");
+                }
+            }
+
+            Console.Write("Является ли здание частным? (y/n): ");
+            bool isPrivate = Console.ReadKey().Key == ConsoleKey.Y;
+            Console.WriteLine();
+
+            int yearOfFounding;
+            while (true)
+            {
+                Console.Write("Введите год основания здания: ");
+                string yearOfFoundingInput = Console.ReadLine();
+                if (int.TryParse(yearOfFoundingInput, out yearOfFounding))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Некорректный ввод. Пожалуйста, введите целое число.");
+                }
+            }
+
+            Console.Write("Введите название улицы, на которой построено здание: ");
+            string street = Console.ReadLine();
+
+            double maintenanceCost;
+            while (true)
+            {
+                Console.Write("Введите стоимость обслуживания: ");
+                string maintenanceCostInput = Console.ReadLine();
+                if (double.TryParse(maintenanceCostInput, NumberStyles.Any, CultureInfo.InvariantCulture, out maintenanceCost))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Некорректный ввод. Пожалуйста, введите число.");
+                }
+            }
+
+            Building myBuilding = new Building();
+            myBuilding.City = city;
+            myBuilding.Type = type;
+            myBuilding.Height = height;
+            myBuilding.IsPrivate = isPrivate;
+            myBuilding.YearOfFounding = yearOfFounding;
+            myBuilding.Street = street;
+            myBuilding.MaintenanceCost = maintenanceCost;
+
+            double maintenanceCostPerYear = myBuilding.GetMaintenanceCostPerYear();
+
+            Console.WriteLine();
+            Console.WriteLine("Информация о здании:");
+            Console.WriteLine($"Город: {myBuilding.City}");
+            Console.WriteLine($"Тип: {myBuilding.Type}");
+            Console.WriteLine($"Высота: {myBuilding.Height} метров");
+            Console.WriteLine($"Частное: {(myBuilding.IsPrivate ? "Да" : "Нет")}");
+            Console.WriteLine($"Год основания: {myBuilding.YearOfFounding}");
+            Console.WriteLine($"Улица: {myBuilding.Street}");
+            Console.WriteLine($"Стоимость обслуживания: {myBuilding.MaintenanceCost:C}");
+            Console.WriteLine($"Ежегодная стоимость обслуживания: {maintenanceCostPerYear:C}");
+
+            Console.ReadLine();
+        }
+    }
+}
